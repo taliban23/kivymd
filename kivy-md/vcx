@@ -1,0 +1,77 @@
+# from kivymd.app import MDApp
+# from kivymd.uix.screen import Screen
+# from kivymd.uix.textfield import MDTextField
+# from kivymd.uix.button import MDRaisedButton
+# from kivymd.uix.label import MDLabel
+# from kivy.uix.scrollview import ScrollView
+# from kivy.uix.boxlayout import BoxLayout
+# from kivy.core.window import Window
+
+# from zhipuai import ZhipuAI
+
+# client = ZhipuAI(
+#     api_key="c522b9ed146a4e51ba9d9fa330a1dd87.qJoXCk6aPhqUdQaS",
+#     base_url="https://open.bigmodel.cn/api/paas/v4",
+# )
+
+# def get_llm_response(prompt):
+#     """This function takes as input a prompt, which must be a string enclosed in quotation marks,
+#     and passes it to ZhipuAI's glm-4-flash model. The function then saves the response of the model as
+#     a string.
+#     """
+#     try:
+#         completion = client.chat.completions.create(
+#             model="glm-4-flash",
+#             messages=[
+#                 {
+#                     "role": "system",
+#                     "content": "You are a helpful but terse AI assistant who gets straight to the point.",
+#                 },
+#                 {"role": "user", "content": prompt},
+#             ],
+#             temperature=0.0,
+#         )
+#         response = completion.choices[0].message.content
+#         return response
+#     except Exception as e:
+#         return f"Error: {str(e)}"
+
+# class ChatApp(MDApp):
+#     def build(self):
+#         self.screen = Screen()
+#         self.layout = BoxLayout(orientation='vertical')
+#         self.scroll_view = ScrollView()
+#         self.chat_layout = BoxLayout(orientation='vertical', size_hint_y=None)
+#         self.chat_layout.bind(minimum_height=self.chat_layout.setter('height'))
+#         self.scroll_view.add_widget(self.chat_layout)
+
+#         self.text_input = MDTextField(hint_text="Enter your prompt", multiline=True)
+#         self.send_button = MDRaisedButton(text="Send", on_press=self.send_message)
+
+#         self.layout.add_widget(self.scroll_view)
+#         self.layout.add_widget(self.text_input)
+#         self.layout.add_widget(self.send_button)
+#         self.screen.add_widget(self.layout)
+#         return self.screen
+
+#     def send_message(self, instance):
+#         prompt = self.text_input.text
+#         if prompt:
+#             user_label = MDLabel(text=f"User: {prompt}", halign='left', size_hint_y=None, height="40dp")
+#             self.chat_layout.add_widget(user_label)
+#             self.text_input.text = ""
+#             self.process_response(prompt)
+
+#     def process_response(self, prompt):
+#         response = get_llm_response(prompt)
+#         ai_label = MDLabel(text=f"AI: {response}", halign='left', size_hint_y=None, height="40dp")
+#         self.chat_layout.add_widget(ai_label)
+#         self.scroll_view.scroll_to(ai_label) #scroll to bottom after each new message
+#         self.update_scroll_view_height()
+
+#     def update_scroll_view_height(self):
+#         self.chat_layout.height = max(self.chat_layout.minimum_height, self.scroll_view.height)
+
+# if __name__ == "__main__":
+#     Window.size = (400, 600)
+#     ChatApp().run()
